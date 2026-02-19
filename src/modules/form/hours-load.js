@@ -7,7 +7,7 @@ const hours = document.getElementById("hours")
 export function hoursLoad({ date, dailySchedules }) {
     hours.innerHTML = ""
 
-    const unavailableHours = dailySchedules.map((schedule) => dayjs(schedule.when)).format("HH:mm")
+    const unavailableHours = dailySchedules.map((schedule) => dayjs(schedule.when).format("HH:mm"))
 
     const opening = openingHours.map((hour) => {
         const [scheduleHour] = hour.split(":")
