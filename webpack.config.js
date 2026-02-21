@@ -1,6 +1,14 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const dotenv = require('dotenv')
+const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack')
+
+const envPath = process.env.NODE_ENV === 'production'
+        ? '.env.production'
+        : '.env.local';
+dotenv.config({ path: path.resolve(__dirname, envPath)}),
 
 module.exports = {
     target: "web",
@@ -33,6 +41,13 @@ module.exports = {
                 }
             ]
         }),
+        new webpack.DefinePlugin({
+            'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL || '/api'),
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+        }),
+        new Dotenv({
+            path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.local',
+        }),
     ],
 
     module: {
@@ -53,4 +68,6 @@ module.exports = {
             },
         ],
     },
+
+    
 }
